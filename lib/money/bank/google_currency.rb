@@ -137,7 +137,7 @@ class Money
       #
       # @return [Boolean]
       def complex_rate?(rhs)
-        rhs.match(/10x3csupx3e(-?\d+)x3c\/supx3e/)
+        rhs.match(/10sup(-?\d+)\/sup/)
       end
 
       ##
@@ -149,9 +149,10 @@ class Money
       # @return [BigDecimal]
       def decode_complex_rate(rhs)
         rate  = BigDecimal(rhs.match(/\d[\d\s]*\.?\d*/)[0])
-        power = rhs.match(/10x3csupx3e(-?\d+)x3c\/supx3e/)
+        power = rhs.match(/10sup(-?\d+)\/sup/)
+        multiplier = BigDecimal(10**power[1].to_i, 0)
 
-        rate * 10**power[1].to_i
+        rate * multiplier
       end
 
       ##
